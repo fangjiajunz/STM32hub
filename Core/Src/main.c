@@ -63,11 +63,12 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 
 
-extern int time[4];
+extern int my_time[4];
 extern uint8_t leddate[];
-// const uint8_t *data[] = {Data1, Data2, Data3, Data4, Data5, Data6, Data7, Data8, Data9, Data10, Data11, Data12, Data13, Data14, Data15, Data16, Data17, Data18, Data19, Data20, Data21, Data22, Data23, Data24, Data25, Data26, Data27};
-
-
+// const uint8_t *data[] = {Data1, Data2, Data3, Data4, Data5, Data6,
+// Data7, Data8, Data9, Data10, Data11, Data12, Data13, Data14,
+// Data15, Data16, Data17, Data18,
+// Data19, Data20, Data21, Data22, Data23, Data24, Data25, Data26, Data27};
 // static int i = 0;
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
@@ -114,30 +115,18 @@ int main(void) {
     MPU6050_Init();
     OLED_Init();
 
-    // OLED_ShowString(0, 0, "方家俊", OLED_8X16);
-    // OLED_ShowString(0, 48, "Hello,你好世界", OLED_8X16);
-    // OLED_ShowImage(0, 0, 48, 48, BMP1);
-    // OLED_ShowImage(0, 0, 64, 64, clockData);
-    // OLED_ShowImage(0, 0, 48, 48, data[0]);
+    OLED_ShowString(0, 0, "方家俊", OLED_8X16);
+    OLED_Printf(0, 16, OLED_8X16, "first commit");
+    // OLED_ShowImage(0, 0, 16, 16, Diode);
 
+    OLED_Update();
 
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while (1) {
-        // a();
-        // for (int i = 0; i < 27; i++) {
-        //     OLED_ShowImage(0, 0, 48, 48, data[i]);
-        //     OLED_Update();
-        //     HAL_Delay(100);
-        // }
-
-        // printf("hhhhh\n");
-        // int b;
-        // scanf("%d", &b);
-
-
+        OLED_Update();
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */

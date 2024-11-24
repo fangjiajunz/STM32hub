@@ -13,4 +13,12 @@ void mydelay(uint32_t delay_time);
 void led_show();
 void do_work_redus(void);
 void do_work_add(void);
+
+
+void key_init();
+void Led_init();
+void led_light();
+void led2init();
+void read_key();
+
 #endif // SHUMA_H

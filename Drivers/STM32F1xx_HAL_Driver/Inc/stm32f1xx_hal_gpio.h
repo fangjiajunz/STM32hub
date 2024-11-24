@@ -146,7 +146,7 @@ typedef enum { GPIO_PIN_RESET = 0u, GPIO_PIN_SET } GPIO_PinState;
  */
 #define GPIO_NOPULL 0x00000000u /*!< No Pull-up or Pull-down activation  */
 #define GPIO_PULLUP 0x00000001u /*!< Pull-up activation                  */
-#define GPIO_PULLDOWN 0x00000002u /*!< Pull-down activation                */
+#define GPIO_PULLDOWN 0x00000002u /*!< Pull-down activation              */
 /**
  * @}
  */

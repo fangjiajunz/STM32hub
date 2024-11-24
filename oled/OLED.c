@@ -159,7 +159,7 @@ void OLED_GPIO_Init(void) {
     /* 配置SCL引脚 (GPIOB_PIN_8) */
     GPIO_InitStructure.Pin = GPIO_PIN_8;
     GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_OD; // 开漏输出模式
-    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH; // 高速
+    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH; // 高速;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
 
     /* 配置SDA引脚 (GPIOB_PIN_9) */

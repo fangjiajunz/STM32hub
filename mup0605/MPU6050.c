@@ -109,14 +109,7 @@ void MPU6050_GetData(int16_t *AccX, int16_t *AccY, int16_t *AccZ, int16_t *GyroX
 void show_mup() {
     char buffer[20];
     int16_t datebuff[6];
-    MPU6050_GetData(&datebuff[0], &datebuff[1], &datebuff[2], &datebuff[3], &datebuff[4], &datebuff[5]);
-    printf("   AccX: %d  ", datebuff[0]);
-    printf("   AccY: %d    ", datebuff[1]);
-    printf("   AccZ: %d    ", datebuff[2]);
-    printf("   GyroX: %d   ", datebuff[3]);
-    printf("   GyroX: %d   ", datebuff[4]);
-    printf("   GyroX: %d\n   ", datebuff[5]);
-    sprintf(buffer, "ID: %d\n", MPU6050_GetID());
+    MPU6050_GetData(&datebuff[0], &datebuff[1], &datebuff[2],
+                    &datebuff[3], &datebuff[4], &datebuff[5]);
 
-    printf("%s", buffer);
 }
