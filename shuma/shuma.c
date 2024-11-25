@@ -9,9 +9,9 @@
 void Led_init() {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     __HAL_RCC_GPIOA_CLK_ENABLE();
-    __HAL_RCC_GPIOA_CLK_ENABLE();
+    
     __HAL_RCC_GPIOB_CLK_ENABLE();
-    __GPIOC_CLK_ENABLE();
+    __HAL_RCC_GPIOC_CLK_ENABLE();
     GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -23,8 +23,8 @@ void Led_init() {
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-    GPIOA->ODR = 0xffff;
-    GPIOC->ODR = 0xffff;
+    GPIOA->ODR = 0x000f;
+    GPIOC->ODR = 0x00f0;
     GPIOB->ODR = 0xffff;
 }
 
@@ -46,10 +46,12 @@ void key_init() {
 }
 void led_light() {
     static uint8_t i = 0x01;
-    GPIOA->ODR = (GPIOA->ODR & 0xFF00) | i;
-    GPIOB->ODR = (GPIOB->ODR & 0xff00) | i;
+    
+GPIOA->ODR = (GPIOA->ODR | 0x00ff) & ~i;
+GPIOC->ODR = (GPIOC->ODR | 0x00ff) & ~i;
+GPIOB->ODR = (GPIOB->ODR | 0x00ff) & ~i;
     i = i << 1;
-    if (i == 0x80) {
+    if (i == 0x00) {
         i = 0x01;
     }
     HAL_Delay(1000);
@@ -68,21 +70,29 @@ void led2init() {
 
 
 void read_key() {
-    if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2)) {
-        HAL_Delay(10);
-        if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2)) {
-            while (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2)) {
-                HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_0);
-            }
-            HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_0);
+    // GPIOC Pin 2 按键
+    if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2)) { // 检测按键按下
+        HAL_Delay(10); // 消抖
+        if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2)) { // 确认按键按下
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // 点亮 LED
         }
-    } else if (HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_5)) {
+    } else { // 检测按键松开
+        HAL_Delay(10); // 消抖
+        if (!HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2)) { // 确认按键松开
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET); // 熄灭 LED
+        }
+    }
+
+    // GPIOD Pin 5 按键
+    if (HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_5)) {
         HAL_Delay(10);
         if (HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_5)) {
-            while (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_5)) {
-                HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
-            }
-            HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+        }
+    } else {
+        HAL_Delay(10);
+        if (!HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_5)) {
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
         }
     }
 }
